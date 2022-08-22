@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flash_chat/constants.dart';
 
 class ChatScreen extends StatefulWidget {
+  static const String id = 'chat_screen';
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
@@ -42,6 +43,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
+                      // Navigator.pushNamed(context,)
                       //Implement send functionality.
                     },
                     child: Text(
