@@ -57,14 +57,23 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                     child: Image.asset('images/logo.png'),
                   ),
                 ),
-                Text(
-                  'Flash Chat',
-                  style: TextStyle(
-                    fontSize: 45.0,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
+                AnimatedTextKit(animatedTexts: [
+                  TypewriterAnimatedText('Flash Chat',
+                      textStyle: const TextStyle(
+                        fontSize: 45.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w900,
+                      ),
+                      speed: const Duration(seconds: 1)),
+                ])
+                // Text(
+                //   'Flash Chat',
+                //   style: TextStyle(
+                //     fontSize: 45.0,
+                //     color: Colors.black,
+                //     fontWeight: FontWeight.w900,
+                //   ),
+                // ),
               ],
             ),
             const SizedBox(

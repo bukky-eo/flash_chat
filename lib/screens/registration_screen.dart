@@ -1,16 +1,22 @@
+import 'package:flash_chat/screens/chat_screen.dart';
 import 'package:flash_chat/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../components/widgets.dart';
 import '../constants.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const String id = 'registration_screen';
+
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  final _auth = FirebaseAuth.instance;
+  late final String email;
+  late final String password;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +39,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 48.0,
             ),
             TextField(
+                keyboardType: TextInputType.emailAddress,
                 onChanged: (value) {
+                  email = value;
                   //Do something with the user input.
                 },
                 decoration:
@@ -42,7 +50,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 8.0,
             ),
             TextField(
+                obscureText: true,
                 onChanged: (value) {
+                  password = value;
                   //Do something with the user input.
                 },
                 decoration:
@@ -53,7 +63,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             Buttons(
               color: Colors.blueAccent,
               text: 'Register',
-              onpress: () {
+              onpress: () async {
+                // print(email);
+                // print(password);
+                try {
+                  final newUser = await _auth.createUserWithEmailAndPassword(
+                      email: email, password: password);
+                  if (newUser != null) {
+                    Navigator.pushNamed(context, ChatScreen.id);
+                  }
+                } catch (e) {
+                  print(e);
+                }
                 //Go to registration screen.
               },
             )
