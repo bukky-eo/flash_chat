@@ -37,6 +37,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: null,
+        centerTitle: true,
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.close),
