@@ -3,6 +3,8 @@ import 'package:flash_chat/components/widgets.dart';
 import 'package:flash_chat/constants.dart';
 import 'package:flutter/material.dart';
 
+import 'chat_screen.dart';
+
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
   @override
@@ -10,52 +12,70 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _auth = FirebaseAuth.instance;
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Hero(
-              tag: 'logo',
-              child: Container(
-                height: 200.0,
-                // width: 100.0,
-                child: Image.asset('images/logo.png'),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Hero(
+                tag: 'logo',
+                child: Container(
+                  height: 200.0,
+                  // width: 100.0,
+                  child: Image.asset('images/logo.png'),
+                ),
               ),
-            ),
-            SizedBox(
-              height: 48.0,
-            ),
-            TextField(
-                onChanged: (value) {
-                  //Do something with the user input.
-                },
-                decoration:
-                    kInputDecoration.copyWith(hintText: 'Enter your email')),
-            SizedBox(
-              height: 8.0,
-            ),
-            TextField(
-                onChanged: (value) {
-                  //Do something with the user input.
-                },
-                decoration:
-                    kInputDecoration.copyWith(hintText: 'Enter your password')),
-            SizedBox(
-              height: 24.0,
-            ),
-            Buttons(
-              text: 'Login',
-              color: Colors.lightBlueAccent,
-              onpress: () {},
-            )
-          ],
+              SizedBox(
+                height: 48.0,
+              ),
+              TextField(
+                  controller: _emailController,
+                  onChanged: (value) {
+                    //Do something with the user input.
+                  },
+                  decoration:
+                      kInputDecoration.copyWith(hintText: 'Enter your email')),
+              SizedBox(
+                height: 8.0,
+              ),
+              TextField(
+                  controller: _passwordController,
+                  onChanged: (value) {
+                    //Do something with the user input.
+                  },
+                  decoration: kInputDecoration.copyWith(
+                      hintText: 'Enter your password')),
+              SizedBox(
+                height: 24.0,
+              ),
+              Buttons(
+                  text: 'Login',
+                  color: Colors.lightBlueAccent,
+                  onpress: () async {
+                    // print(email);
+                    // print(password);
+                    try {
+                      final newUser = await auth.signInWithEmailAndPassword(
+                          email: _emailController.text.trim(),
+                          password: _passwordController.text.trim());
+                      if (newUser != null) {
+                        Navigator.pushNamed(context, ChatScreen.id);
+                      }
+                    } catch (e) {
+                      print(e);
+                    }
+                  })
+            ],
+          ),
         ),
       ),
     );
