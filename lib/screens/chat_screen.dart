@@ -99,9 +99,9 @@ class MessagesStream extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
+    return StreamBuilder<QuerySnapshot<Map>>(
       stream: _firestore.collection('messages').snapshots(),
-      builder: (context, snapshot) {
+      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         List<MessageBubble> messageBubbles = [];
         if (!snapshot.hasData) {
           return const Center(
